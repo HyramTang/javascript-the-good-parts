@@ -80,5 +80,72 @@ if (typeof Object.beget !== 'function') {
         return new F();
     }
 }
-var another_stooge=Object.create(stooge);
-console.log(another_stooge['first-name']);//from stooge object
+var another_stooge = Object.create(stooge);
+console.log(another_stooge['first-name']); //from stooge object
+
+another_stooge['first-name'] = 'Harry';
+another_stooge['middle-name'] = 'Moses';
+another_stooge.nickname = 'Moe';
+
+stooge.profession = 'actor';
+console.log(another_stooge.profession); // 'actor'
+
+/**
+ * Reflection
+ * 反射
+ */
+typeof flight.number // 'number'
+typeof flight.status // 'string'
+typeof flight.arrival // 'object'
+typeof flight.manifest // 'undefinded'
+
+typeof flight.toString // 'function'
+typeof flight.constructor // 'function'
+
+//对象独有的属性
+flight.hasOwnProperty('number') // true
+flight.hasOwnProperty('constructor') // false
+
+/**
+ * Enumeration
+ * 枚举
+ */
+var name;
+for (const key in another_stooge) {
+    if (typeof another_stooge[key] !== 'function') {
+        console.log('name:' + another_stooge[key]);
+    }
+}
+
+/**
+ * Delete
+ * 删除
+ */
+console.log('delete before: ' + another_stooge.nickname) // 'Moe'
+delete another_stooge.nickname;
+console.log('delete after: ' + another_stooge.nickname) // 'Curly'
+
+/**
+ * Global 
+ * 减少全局变量污染
+ */
+var MYAPP = {};
+MYAPP.stooge = {
+    "first-name": "Joe",
+    "last-name": "Howard"
+};
+
+MYAPP.flight = {
+    airline: "Oceanic",
+    number: 815,
+    departure: {
+        IATA: "SYD",
+        time: "2004-09-22 14:55",
+        city: "Sydney"
+    },
+    arrival: {
+        IATA: "LAX",
+        time: "2004-09-23 10-42",
+        city: "Los Angeles"
+    }
+};
