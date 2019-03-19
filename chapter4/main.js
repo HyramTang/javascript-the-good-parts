@@ -76,3 +76,70 @@ var statusObject = {
 };
 
 var status = Quo.prototype.get_status.apply(statusObject);
+
+/**
+ * Arguments
+ * 参数
+ */
+var sum = function () {
+    var sum = 0;
+    for (let i = 0; i < arguments.length; i++) {
+        sum += arguments[i];
+    }
+    return sum;
+}
+console.log(sum(4, 8, 15, 16, 23, 42)); // 108
+
+/**
+ * Return
+ * 返回
+ */
+
+/**
+ * Exceptions
+ * 异常
+ */
+var add = function (a, b) {
+    if (typeof a !== 'number' || typeof b !== 'number') {
+        throw {
+            name: 'TypeError',
+            message: 'add needs numbers'
+        };
+    }
+    return a + b;
+}
+
+var try_it = function () {
+    try {
+        add("seven");
+    } catch (e) {
+        console.log(e.name + ':' + e.message);
+    }
+}
+try_it();
+
+/**
+ * Arguments Types
+ * 扩充类型功能
+ */
+Function.prototype.method = function (name, func) {
+    this.prototype[name] = func;
+    return this;
+};
+
+Number.method('integer', function () {
+    return Math[this < 0 ? 'ceil' : 'floor'](this);
+});
+
+String.method('trim',function(){
+    return this.replace(/^\s+|\s+$/g,'');
+});
+
+console.log('"'+"  neat  ".trim()+'"');
+
+Function.prototype.method=function(name,func){
+    if(!this.prototype[name]){
+        this.prototype[name]=func;
+    }
+    return this;
+};
