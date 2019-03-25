@@ -131,15 +131,92 @@ Number.method('integer', function () {
     return Math[this < 0 ? 'ceil' : 'floor'](this);
 });
 
-String.method('trim',function(){
-    return this.replace(/^\s+|\s+$/g,'');
+String.method('trim', function () {
+    return this.replace(/^\s+|\s+$/g, '');
 });
 
-console.log('"'+"  neat  ".trim()+'"');
+//console.log('"' + "  neat  ".trim() + '"');
 
-Function.prototype.method=function(name,func){
-    if(!this.prototype[name]){
-        this.prototype[name]=func;
+Function.prototype.method = function (name, func) {
+    if (!this.prototype[name]) {
+        this.prototype[name] = func;
     }
     return this;
 };
+
+/**
+ * Recursion
+ * 递归
+ */
+var hanoi = function (disc, src, aux, dst) {
+    if (disc > 0) {
+        hanoi(disc - 1, src, dst, aux);
+        //console.log('Move disc ' + disc + ' from ' + src + ' to ' + dst);
+        hanoi(disc - 1, aux, src, dst);
+    }
+}
+//console.log('\nHanoi：\n');
+hanoi(3, 'Src', 'Aux', 'Dst');
+
+
+/**
+ * Scope
+ * 作用域
+ */
+var foo = function () {
+    var a = 3,
+        b = 5;
+    // a=3 b=5
+    var bar = function () {
+        var b = 7,
+            c = 11;
+        // b=7 c=11
+        a += b + c;
+        // 3+=7+11 a=21
+    }
+    // a=3 b=5
+    bar();
+    // a=21 b=5
+}
+
+/**
+ * Closure
+ * 闭包
+ */
+var myObject = (function () {
+    var value = 0;
+    return {
+        increment: function (inc) {
+            value += typeof inc === 'number' ? inc : 1;
+        },
+        getValue: function () {
+            return value;
+        }
+    }
+}());
+
+/**
+ * Callback
+ * 回调
+ */
+
+/**
+ * Module
+ * 模块
+ */
+String.method('deentityify', function () {
+    var entity = {
+        quot: '"',
+        lt: '<',
+        gt: '>'
+    };
+
+    return function () {
+        return this.replace(/&([^&;]+);/g,
+            function (a,b) {
+                var r = entity[b];
+                return typeof r === 'string' ? r : a;
+            }
+        );
+    }
+}());
