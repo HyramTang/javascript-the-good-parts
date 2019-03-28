@@ -213,10 +213,51 @@ String.method('deentityify', function () {
 
     return function () {
         return this.replace(/&([^&;]+);/g,
-            function (a,b) {
+            function (a, b) {
                 var r = entity[b];
                 return typeof r === 'string' ? r : a;
             }
         );
     }
 }());
+
+console.log('&lt;&quot;&gt;'.deentityify());
+
+/**
+ * Cascade
+ * 级联
+ */
+//getElement('myBoxDiv').move(350, 150).width(100).height(100).color('red');
+
+/**
+ * Curry
+ * 柯里化
+ */
+Function.method('curry', function () {
+    var slice = Array.prototype.slice,
+        args = slice.apply(arguments),
+        that = this;
+    return function () {
+        return that.apply(null, args.concat(slice.apply(arguments)));
+    };
+});
+
+var add1 = add.curry(1);
+console.log(add1(6));
+
+/**
+ * Memoization
+ * 记忆
+ */
+var fibonacci = function () {
+    var memo = [0, 1];
+    var fib = function (n) {
+        var result = memo[n];
+        if (typeof result !== 'number') {
+            result = fib(n - 1) + fib(n - 2);
+            memo[n] = result;
+        }
+        return result;
+    };
+    return fib;
+}();
